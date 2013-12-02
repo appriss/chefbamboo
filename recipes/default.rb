@@ -140,6 +140,7 @@ end
 if node[:bamboo][:plugins]
   node[:bamboo][:plugins].keys.each do |key|
     Chef::Log.info("Installing plugin #{key}")
+    Chef::Log.info("Plugin URL is #{node[:bamboo][:plugins][key]}")
   end
 end
   
