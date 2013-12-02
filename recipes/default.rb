@@ -140,7 +140,7 @@ end
 if node[:bamboo][:plugins]
   node[:bamboo][:plugins].keys.each do |key|
     Chef::Log.info("Going to install plugin #{key}")
-    remote_file ::File.join(bamboo_base_dir,"webapp","WEB-INF","lib","#{key}.jar") do
+    remote_file ::File.join(bamboo_base_dir,"atlassian-bamboo","WEB-INF","lib","#{key}.jar") do
       source node[:bamboo][:plugins][key]
       owner node[:bamboo][:run_as]
       mode 0644
