@@ -137,9 +137,10 @@ service "bamboo" do
 end
 
 #Install plugins
-
-node[:bamboo][:plugins].keys.each do |key|
-  Chef::Log.info("Installing plugin #{key}")
+if node[:bamboo][:plugins]
+  node[:bamboo][:plugins].keys.each do |key|
+    Chef::Log.info("Installing plugin #{key}")
+  end
 end
   
 
