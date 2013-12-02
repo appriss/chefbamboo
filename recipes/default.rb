@@ -136,6 +136,13 @@ service "bamboo" do
   action :nothing
 end
 
+#Install plugins
+
+node[:bamboo][:plugins].keys.each do |key|
+  Chef::Log.info("Installing plugin #{key}")
+end
+  
+
 # Enable the Apache2 proxy_http module
 #execute "a2enmod proxy_http" do
 #  command "/usr/sbin/a2enmod proxy_http"
