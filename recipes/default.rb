@@ -97,6 +97,19 @@ labrea node[:bamboo][:jsw][:base_name] do
   notifies :run, "execute[configure wrapper permissions]", :immediately
 end
 
+#Install plugins
+if node[:bamboo][:plugins]
+  node[:bamboo][:plugins].keys.each do |key|
+    Chef::Log.info("Going to install plugin #{key}")
+    remote_file ::File.join(bamboo_base_dir,"atlassian-bamboo","WEB-INF","lib","#{key}.jar") do
+      source node[:bamboo][:plugins][key]
+      owner node[:bamboo][:run_as]
+      mode 0644
+      action :create
+    end
+  end
+end
+
 # Configure wrapper permissions
 execute "configure wrapper permissions" do
   command "chown -R #{node[:bamboo][:run_as]} #{wrapper_home} #{wrapper_home}/*"
@@ -134,19 +147,6 @@ end
 
 service "bamboo" do
   action :nothing
-end
-
-#Install plugins
-if node[:bamboo][:plugins]
-  node[:bamboo][:plugins].keys.each do |key|
-    Chef::Log.info("Going to install plugin #{key}")
-    remote_file ::File.join(bamboo_base_dir,"atlassian-bamboo","WEB-INF","lib","#{key}.jar") do
-      source node[:bamboo][:plugins][key]
-      owner node[:bamboo][:run_as]
-      mode 0644
-      action :create
-    end
-  end
 end
   
 
