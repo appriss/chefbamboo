@@ -44,13 +44,13 @@ end
 # Install the bamboo agent
 execute "install bamboo agent" do
   command "java -jar /tmp/atlassian-bamboo-agent-installer-#{node[:bamboo][:version]}.jar https://bamboo.sdlc.appriss.com/agentServer/ install"
-  # user node[:bamboo][:run_as]
+  user node[:bamboo][:run_as]
   action :run
 end
 
 # Start the bamboo agent
 execute "install bamboo agent" do
   command "java -jar /tmp/atlassian-bamboo-agent-installer-#{node[:bamboo][:version]}.jar https://bamboo.sdlc.appriss.com/agentServer/ start"
-  # user node[:bamboo][:run_as]
+  user node[:bamboo][:run_as]
   action :run
 end
