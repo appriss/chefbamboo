@@ -25,6 +25,7 @@ directory node[:bamboo][:agent][:home] do
   owner node[:bamboo][:run_as]
   group node[:bamboo][:run_as]
   mode 0755
+  recursive true
   action :create
 end
 
