@@ -16,14 +16,17 @@ bamboo_base_dir = File.join(node[:bamboo][:install_path],node[:bamboo][:base_nam
 user node[:bamboo][:run_as] do
   system true
   shell  '/bin/bash'
-  home   "/home/#{node[:bamboo][:run_as]}"
+  home   node[:bamboo][:agent][:home]
   action :create
 end
 
 # Create a home directory for the Atlassian Bamboo user
-# directory node[:bamboo][:home] do
-#   owner node[:bamboo][:run_as]
-# end
+directory node[:bamboo][:agent][:home] do
+  owner node[:bamboo][:run_as]
+  group node[:bamboo][:run_as]
+  mode 0755
+  action :create
+end
 
 # Install bamboo agent drivers if needed
 if node[:bamboo][:agent][:bucket] != nil
