@@ -123,8 +123,23 @@ template File.join(wrapper_home,"conf","wrapper.conf") do
   mode 0644
   variables({
     :wrapper_home => wrapper_home,
-    :bamboo_base_dir => bamboo_base_dir
+    :bamboo_base_dir => bamboo_base_dir,
+    :newrelic_jar => File.join(bamboo_base_dir,'newrelic', 'newrelic.jar')
   })
+end
+
+#Install NewRelic if configured
+if node[:bamboo][:newrelic][:enabled]
+  include_recipe 'newrelic::java-agent'
+  #We need to explictly disable JSP autoinstrument
+  newrelic_conf = File.join(bamboo_base_dir, 'newrelic', 'newrelic.yml')
+  ruby_block "disable autoinstrument for JSP pages." do 
+    block do
+      f = Chef::Util::FileEdit.new(newrelic_conf)
+      f.search_file_replace(/auto_instrument: true/,'auto_instrument: false')
+      f.write_file
+    end
+  end
 end
 
 # Create wrapper startup script

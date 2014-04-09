@@ -44,8 +44,20 @@ default[:bamboo][:jsw][:base_name]     = "wrapper-linux-#{node[:bamboo][:jsw][:a
 default[:bamboo][:jsw][:version]       = "3.5.20"
 default[:bamboo][:jsw][:install_path]  = ::File.join(node[:bamboo][:install_path],"#{node[:bamboo][:base_name]}")
 default[:bamboo][:jsw][:source]        = "http://wrapper.tanukisoftware.com/download/#{node[:bamboo][:jsw][:version]}/wrapper-linux-#{node[:bamboo][:jsw][:arch]}-#{node[:bamboo][:jsw][:version]}.tar.gz"
-# Confluence doesn't support OpenJDK http://bamboo.atlassian.com/browse/CONF-16431
+default[:bamboo][:newrelic][:enabled]  = false
+default[:bamboo][:newrelic][:version]  = "3.5.0"
+default[:bamboo][:newrelic][:app_name] = node['hostname']
+# bamboo doesn't support OpenJDK http://bamboo.atlassian.com/browse/CONF-16431
 # FIXME: There are some hardcoded paths like JAVA_HOME
 set[:java][:install_flavor]    = "oracle"
 set[:oracledb][:jdbc][:install_dir] = ::File.join(node[:bamboo][:install_path],node[:bamboo][:base_name],"lib")
+
+normal[:newrelic][:'java-agent'][:install_dir]   = ::File.join(node[:bamboo][:install_path],node[:bamboo][:base_name],"newrelic")
+normal[:newrelic][:'java-agent'][:app_user] = node[:bamboo][:run_as]
+normal[:newrelic][:'java-agent'][:app_group] = node[:bamboo][:run_as]
+normal[:newrelic][:'java-agent'][:https_download] = "https://download.newrelic.com/newrelic/java-agent/newrelic-agent/#{node[:bamboo][:newrelic][:version]}/newrelic-agent-#{node[:bamboo][:newrelic][:version]}.jar"
+normal[:newrelic][:'java-agent'][:jar_file] = "newrelic-agent-#{node[:bamboo][:newrelic][:version]}.jar"
+normal[:newrelic][:application_monitoring][:logfile] = ::File.join(node[:bamboo][:home], "log", "newrelic.log")
+normal[:newrelic][:application_monitoring][:appname] = node[:bamboo][:newrelic][:app_name]
+
 
