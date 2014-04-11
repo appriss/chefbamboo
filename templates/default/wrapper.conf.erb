@@ -75,6 +75,8 @@ wrapper.java.additional.5=-Dcatalina.base=<%= @bamboo_base_dir %>
 wrapper.java.additional.6=-Dcatalina.home=<%= @bamboo_base_dir %>
 wrapper.java.additional.7=-Djava.io.tmpdir=<%= @bamboo_base_dir %>/temp
 wrapper.java.additional.8=-XX:MaxPermSize=256m
+wrapper.java.additional.9=-XX:+UseConcMarkSweepGC
+wrapper.java.additional.10=-XX:+UseParNewGC
 <% if node[:bamboo][:newrelic][:enabled] %>
 wrapper.java.additional.18=-javaagent:<%= @newrelic_jar %>
 <% end %>
