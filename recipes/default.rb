@@ -67,7 +67,7 @@ end
 
 # Set the permissions of the Atlassian Bamboo directory
 execute "configure bamboo permissions" do
-  command "chown -R #{node[:bamboo][:run_as]} #{node[:bamboo][:install_path]}"
+  command "chown -R #{node[:bamboo][:run_as]} #{node[:bamboo][:install_path]} #{node[:bamboo][:home]}"
   action :nothing
 end
 
