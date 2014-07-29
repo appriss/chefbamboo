@@ -8,5 +8,10 @@ if node[:bamboo][:agent][:enable_ssl]
     mode "0644"
     action :create
   end
+
+  execute "run profile" do
+    command "source /etc/profile.d/bamboo.sh"
+    action :run
+  end
 end
 

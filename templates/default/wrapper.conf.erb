@@ -46,6 +46,10 @@ wrapper.java.command=java
 #set.JAVA_HOME=/java/path
 #wrapper.java.command=%JAVA_HOME%/bin/java
 
+#Set custom environment variables
+set.SSL_OPTS=-Djavax.net.ssl.keyStore=<%= node[:bamboo][:home] %>/bamboo_server.ks -Djavax.net.ssl.keyStorePassword=<%= node[:bamboo][:agent][:enable_ssl][:keystore_password] %>
+set.JAVA_OPTS=%SSL_OPTS% %JAVA_OPTS%
+
 # Tell the Wrapper to log the full generated Java command line.
 wrapper.java.command.loglevel=INFO
 
