@@ -35,10 +35,14 @@ default[:bamboo][:database][:host]     = "localhost"
 default[:bamboo][:database][:user]     = "bamboo"
 default[:bamboo][:database][:name]     = "bamboo"
 default[:bamboo][:service][:type]      = "jsw"
-if node[:opsworks][:instance][:architecture]
-  default[:bamboo][:jsw][:arch]          = node[:opsworks][:instance][:architecture].gsub!(/_/,"-")
-else
+if node.platform?("centos")
   default[:bamboo][:jsw][:arch]          = node[:kernel][:machine].gsub!(/_/,"-")
+else
+	if node[:opsworks][:instance][:architecture]
+  		default[:bamboo][:jsw][:arch]          = node[:opsworks][:instance][:architecture].gsub!(/_/,"-")
+	else
+  		default[:bamboo][:jsw][:arch]          = node[:kernel][:machine].gsub!(/_/,"-")
+	end
 end
 default[:bamboo][:jsw][:base_name]     = "wrapper-linux-#{node[:bamboo][:jsw][:arch]}"
 default[:bamboo][:jsw][:version]       = "3.5.20"
