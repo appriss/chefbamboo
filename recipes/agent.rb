@@ -60,6 +60,13 @@ execute "install bamboo agent" do
   action :run
 end
 
+# Configure wrapper
+template File.join(node[:bamboo][:home],"bamboo-agent-home","conf","wrapper.conf") do
+  owner node[:bamboo][:run_as]
+  source "wrapper.conf.agent.erb"
+  mode 0644
+end
+
 # Start the bamboo agent
 execute "install bamboo agent" do
   command "java -Djavax.net.ssl.keyStore=#{node[:bamboo][:home]}/bamboo_client.ks -Djavax.net.ssl.keyStorePassword=#{node[:bamboo][:agent][:enable_ssl][:keystore_password]} -Djavax.net.ssl.trustStore=#{node[:bamboo][:home]}/bamboo_client.ts -jar /tmp/atlassian-bamboo-agent-installer-#{node[:bamboo][:version]}.jar https://bamboo.sdlc.appriss.com/agentServer/ start"
