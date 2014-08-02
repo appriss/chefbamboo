@@ -46,7 +46,7 @@ if node[:bamboo][:agent][:enable_ssl]
   end
 end
 
-# Install bamboo agent drivers
+# Download the bamboo agent drivers
 remote_file "/tmp/atlassian-bamboo-agent-installer-#{node[:bamboo][:version]}.jar" do
   source "https://bamboo.sdlc.appriss.com/agentServer/agentInstaller/atlassian-bamboo-agent-installer-#{node[:bamboo][:version]}.jar"
   owner node[:bamboo][:run_as]
@@ -55,10 +55,33 @@ end
 
 # Install the bamboo agent
 execute "install bamboo agent" do
-  command "java -Djavax.net.ssl.keyStore=#{node[:bamboo][:home]}/bamboo_client.ks -Djavax.net.ssl.keyStorePassword=#{node[:bamboo][:agent][:enable_ssl][:keystore_password]} -Djavax.net.ssl.trustStore=#{node[:bamboo][:home]}/bamboo_client.ts -jar /tmp/atlassian-bamboo-agent-installer-#{node[:bamboo][:version]}.jar https://bamboo.sdlc.appriss.com/agentServer/ install"
+  command "java -jar /tmp/atlassian-bamboo-agent-installer-#{node[:bamboo][:version]}.jar https://bamboo.sdlc.appriss.com/agentServer/ install"
   user node[:bamboo][:run_as]
   action :run
 end
+
+# Clone and modify the JRE truststore
+#case node["platform_family"]
+#when "debian"
+  # do things on debian-ish platforms (debian, ubuntu, linuxmint)
+#  execute "copy jre cacerts truststore for modification" do
+#    command "cp /usr/lib/jvm/default-java/jre/lib/security/cacerts /tmp && "
+#    user node[:bamboo][:run_as]
+#  end
+#when "rhel"
+  # do things on RHEL platforms (redhat, centos, scientific, etc)
+#  execute "copy jre cacerts truststore for modification" do
+#    command "cp /usr/lib/jvm/java/jre/lib/security/cacerts /tmp && "
+#    user node[:bamboo][:run_as]
+#  end
+#when "fedora"
+#  execute "copy jre cacerts truststore for modification" do
+#    command "cp /usr/lib/jvm/jre/lib/security/cacerts /tmp && "
+#    user node[:bamboo][:run_as]
+#  end
+#when "suse"
+  # do things on SuSe platforms (opensuse, SLES)
+#end
 
 # Configure wrapper
 template File.join(node[:bamboo][:home],"bamboo-agent-home","conf","wrapper.conf") do
@@ -68,8 +91,8 @@ template File.join(node[:bamboo][:home],"bamboo-agent-home","conf","wrapper.conf
 end
 
 # Start the bamboo agent
-execute "install bamboo agent" do
-  command "java -Djavax.net.ssl.keyStore=#{node[:bamboo][:home]}/bamboo_client.ks -Djavax.net.ssl.keyStorePassword=#{node[:bamboo][:agent][:enable_ssl][:keystore_password]} -Djavax.net.ssl.trustStore=#{node[:bamboo][:home]}/bamboo_client.ts -jar /tmp/atlassian-bamboo-agent-installer-#{node[:bamboo][:version]}.jar https://bamboo.sdlc.appriss.com/agentServer/ start"
+execute "start bamboo agent" do
+  command "#{node[:bamboo][:home]}/bamboo-agent-home/bin/bamboo-agent.sh start"
   user node[:bamboo][:run_as]
   action :run
 end

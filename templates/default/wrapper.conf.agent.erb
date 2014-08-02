@@ -14,11 +14,11 @@ wrapper.java.library.path.1=../lib
 # The Bamboo Agent home configuration file
 wrapper.java.additional.1=-Dbamboo.home=/var/lib/bamboo/bamboo-agent-home
 wrapper.java.additional.2=-Dbamboo.agent.ignoreServerCertName=false
+wrapper.java.additional.3=-Djavax.net.ssl.keyStore=<%= node[:bamboo][:home] %>/bamboo_client.ks
+wrapper.java.additional.4=-Djavax.net.ssl.keyStorePassword=<%= node[:bamboo][:agent][:enable_ssl][:keystore_password] %>
+wrapper.java.additional.5=-Djavax.net.ssl.trustStore=<%= node[:bamboo][:home] %>/bamboo_client.ts
+wrapper.java.additional.6=-Djavax.net.ssl.trustStorePassword=<%= node[:bamboo][:agent][:enable_ssl][:keystore_password] %>
 #wrapper.java.additional.3=-agentlib:yjpagent
-wrapper.java.additional.4=-Djavax.net.ssl.keyStore=<%= node[:bamboo][:home] %>/bamboo_client.ks
-wrapper.java.additional.5=-Djavax.net.ssl.keyStorePassword=<%= node[:bamboo][:agent][:enable_ssl][:keystore_password] %>
-wrapper.java.additional.6=-Djavax.net.ssl.trustStore=<%= node[:bamboo][:home] %>/bamboo_client.ts
-wrapper.java.additional.7=-Djavax.net.ssl.trustStorePassword=<%= node[:bamboo][:agent][:enable_ssl][:keystore_password] %>
 
 # Application parameters.  Add parameters as needed starting from 1
 wrapper.app.parameter.1=com.atlassian.bamboo.agent.bootstrap.AgentBootstrap
