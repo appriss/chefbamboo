@@ -37,6 +37,8 @@ default[:bamboo][:database][:name]     = "bamboo"
 default[:bamboo][:service][:type]      = "jsw"
 if node.platform?("centos")
   default[:bamboo][:jsw][:arch]          = node[:kernel][:machine].gsub!(/_/,"-")
+elsif node.platform?("suse")
+  default[:bamboo][:jsw][:arch]          = node[:kernel][:machine].gsub!(/_/,"-")
 else
 	if node[:opsworks][:instance][:architecture]
   		default[:bamboo][:jsw][:arch]          = node[:opsworks][:instance][:architecture].gsub!(/_/,"-")
