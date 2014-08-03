@@ -16,12 +16,12 @@ bamboo_base_dir = File.join(node[:bamboo][:install_path],node[:bamboo][:base_nam
 user node[:bamboo][:run_as] do
   system true
   shell  '/bin/bash'
-  home   node[:bamboo][:home]
+  home   node[:bamboo][:agent][:home]
   action :create
 end
 
 # Create a home directory for the Atlassian Bamboo user
-directory node[:bamboo][:home] do
+directory node[:bamboo][:agent][:home] do
   owner node[:bamboo][:run_as]
   group node[:bamboo][:run_as]
   mode 0755
@@ -32,14 +32,14 @@ end
 # If SSL agent support is enabled
 if node[:bamboo][:agent][:enable_ssl]
   # Download the client keystore
-  remote_file "#{node[:bamboo][:home]}/bamboo_client.ks" do
+  remote_file "#{node[:bamboo][:agent][:home]}/bamboo_client.ks" do
     source "#{node[:bamboo][:agent][:enable_ssl][:client_keystore]}"
     owner node[:bamboo][:run_as]
     action :create
   end
 
   # Download the client truststore
-  remote_file "#{node[:bamboo][:home]}/bamboo_client.ts" do
+  remote_file "#{node[:bamboo][:agent][:home]}/bamboo_client.ts" do
     source "#{node[:bamboo][:agent][:enable_ssl][:client_truststore]}"
     owner node[:bamboo][:run_as]
     action :create
@@ -84,7 +84,7 @@ end
 #end
 
 # Configure wrapper
-template File.join(node[:bamboo][:home],"bamboo-agent-home","conf","wrapper.conf") do
+template File.join(node[:bamboo][:agent][:home],"bamboo-agent-home","conf","wrapper.conf") do
   owner node[:bamboo][:run_as]
   source "wrapper.conf.agent.erb"
   mode 0644
@@ -92,7 +92,7 @@ end
 
 # Start the bamboo agent
 execute "start bamboo agent" do
-  command "#{node[:bamboo][:home]}/bamboo-agent-home/bin/bamboo-agent.sh start"
+  command "#{node[:bamboo][:agent][:home]}/bamboo-agent-home/bin/bamboo-agent.sh start"
   user node[:bamboo][:run_as]
   action :run
 end
