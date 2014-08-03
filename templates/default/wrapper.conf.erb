@@ -83,9 +83,9 @@ wrapper.java.additional.7=-Djava.io.tmpdir=<%= @bamboo_base_dir %>/temp
 wrapper.java.additional.8=-XX:MaxPermSize=256m
 wrapper.java.additional.9=-XX:+UseConcMarkSweepGC
 wrapper.java.additional.10=-XX:+UseParNewGC
-<% if node[:bamboo][:agent][:enable_ssl] %>
+<% if node[:bamboo][:agent][:ssl][:enable] %>
 wrapper.java.additional.16=-Djavax.net.ssl.keyStore=<%= node[:bamboo][:home] %>/bamboo_server.ks
-wrapper.java.additional.17=-Djavax.net.ssl.keyStorePassword=<%= node[:bamboo][:agent][:enable_ssl][:keystore_password] %>
+wrapper.java.additional.17=-Djavax.net.ssl.keyStorePassword=<%= node[:bamboo][:agent][:ssl][:keystore_password] %>
 <% end %>
 <% if node[:bamboo][:newrelic][:enabled] %>
 wrapper.java.additional.18=-javaagent:<%= @newrelic_jar %>
