@@ -47,8 +47,8 @@ wrapper.java.command=java
 #wrapper.java.command=%JAVA_HOME%/bin/java
 
 #Set custom environment variables
-<% if node[:bamboo][:agent][:enable_ssl] %>
-set.SSL_OPTS=-Djavax.net.ssl.keyStore=<%= node[:bamboo][:home] %>/bamboo_server.ks -Djavax.net.ssl.keyStorePassword=<%= node[:bamboo][:agent][:enable_ssl][:keystore_password] %>
+<% if node[:bamboo][:agent][:ssl][:enable] %>
+set.SSL_OPTS=-Djavax.net.ssl.keyStore=<%= node[:bamboo][:home] %>/bamboo_server.ks -Djavax.net.ssl.keyStorePassword=<%= node[:bamboo][:agent][:ssl][:keystore_password] %>
 set.JAVA_OPTS=%SSL_OPTS% %JAVA_OPTS%
 <% end %>
 

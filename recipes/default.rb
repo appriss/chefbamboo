@@ -72,17 +72,17 @@ execute "configure bamboo permissions" do
 end
 
 # If SSL agent support is enabled
-if node[:bamboo][:agent][:enable_ssl]
+if node[:bamboo][:agent][:ssl][:enable]
   # Download the server keystore
   remote_file "#{node[:bamboo][:home]}/bamboo_server.ks" do
-    source "#{node[:bamboo][:agent][:enable_ssl][:server_keystore]}"
+    source "#{node[:bamboo][:agent][:ssl][:server_keystore]}"
     owner node[:bamboo][:run_as]
     action :create
   end
 
   # Create bamboo environment profile
   file "/etc/profile.d/bamboo.sh" do
-    content "SSL_OPTS=-Djavax.net.ssl.keyStore=#{node[:bamboo][:home]}/bamboo_server.ks -Djavax.net.ssl.keyStorePassword=#{node[:bamboo][:agent][:enable_ssl][:keystore_password]};JAVA_OPTS=$JAVA_OPTS:$SSL_OPTS; export SSL_OPTS JAVA_OPTS;"
+    content "SSL_OPTS=-Djavax.net.ssl.keyStore=#{node[:bamboo][:home]}/bamboo_server.ks -Djavax.net.ssl.keyStorePassword=#{node[:bamboo][:agent][:ssl][:keystore_password]};JAVA_OPTS=$JAVA_OPTS:$SSL_OPTS; export SSL_OPTS JAVA_OPTS;"
     owner "root"
     group "root"
     mode "0644"
