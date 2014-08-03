@@ -90,6 +90,13 @@ template File.join(node[:bamboo][:agent][:home],"bamboo-agent-home","conf","wrap
   mode 0644
 end
 
+# Install capabilities file
+if node[:bamboo][:agent][:capabilities_url] != ""
+  remote_file File.join(node[:bamboo][:agent][:home],"bamboo-agent-home","bin","bamboo-capabilities.properties" do
+  owner node[:bamboo][:run_as]
+  source node[:bamboo][:agent][:capabilities_url]
+end
+
 # Start the bamboo agent
 execute "start bamboo agent" do
   command "#{node[:bamboo][:agent][:home]}/bamboo-agent-home/bin/bamboo-agent.sh start"

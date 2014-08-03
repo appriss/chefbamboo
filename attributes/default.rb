@@ -42,6 +42,7 @@ default[:bamboo][:agent][:ssl][:enable] = false
 default[:bamboo][:agent][:ssl][:client_keystore] = ""
 default[:bamboo][:agent][:ssl][:server_keystore] = ""
 default[:bamboo][:agent][:ssl][:client_truststore] = ""
+default[:bamboo][:agent][:capabilities_url] = ""
 
 if node.platform?("centos")
   default[:bamboo][:jsw][:arch]          = node[:kernel][:machine].gsub!(/_/,"-")
