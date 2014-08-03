@@ -30,17 +30,17 @@ directory node[:bamboo][:agent][:home] do
 end
 
 # If SSL agent support is enabled
-if node[:bamboo][:agent][:enable_ssl]
+if node[:bamboo][:agent][:ssl][:enable]
   # Download the client keystore
   remote_file "#{node[:bamboo][:agent][:home]}/bamboo_client.ks" do
-    source "#{node[:bamboo][:agent][:enable_ssl][:client_keystore]}"
+    source "#{node[:bamboo][:agent][:ssl][:client_keystore]}"
     owner node[:bamboo][:run_as]
     action :create
   end
 
   # Download the client truststore
   remote_file "#{node[:bamboo][:agent][:home]}/bamboo_client.ts" do
-    source "#{node[:bamboo][:agent][:enable_ssl][:client_truststore]}"
+    source "#{node[:bamboo][:agent][:ssl][:client_truststore]}"
     owner node[:bamboo][:run_as]
     action :create
   end
