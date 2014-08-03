@@ -35,6 +35,14 @@ default[:bamboo][:database][:host]     = "localhost"
 default[:bamboo][:database][:user]     = "bamboo"
 default[:bamboo][:database][:name]     = "bamboo"
 default[:bamboo][:service][:type]      = "jsw"
+
+#Bamboo Agent attributes
+default[:bamboo][:agent][:home] = "/var/lib/bamboo-agent"
+default[:bamboo][:agent][:ssl][:enable] = false
+default[:bamboo][:agent][:ssl][:client_keystore] = ""
+default[:bamboo][:agent][:ssl][:server_keystore] = ""
+default[:bamboo][:agent][:ssl][:client_truststore] = ""
+
 if node.platform?("centos")
   default[:bamboo][:jsw][:arch]          = node[:kernel][:machine].gsub!(/_/,"-")
 elsif node.platform?("suse")
