@@ -90,6 +90,9 @@ wrapper.java.additional.17=-Djavax.net.ssl.keyStorePassword=<%= node[:bamboo][:a
 <% if node[:bamboo][:newrelic][:enabled] %>
 wrapper.java.additional.18=-javaagent:<%= @newrelic_jar %>
 <% end %>
+<% unless node[:bamboo][:capability_detector] %>
+wrapper.java.additional.19=-DDISABLE_AGENT_AUTO_CAPABILITY_DETECTION=true
+<% end %>
 
 
 # Initial Java Heap Size (in MB)

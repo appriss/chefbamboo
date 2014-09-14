@@ -35,6 +35,7 @@ default[:bamboo][:database][:host]     = "localhost"
 default[:bamboo][:database][:user]     = "bamboo"
 default[:bamboo][:database][:name]     = "bamboo"
 default[:bamboo][:service][:type]      = "jsw"
+default[:bamboo][:detect_capabilities] = true
 
 #Bamboo Agent attributes
 default[:bamboo][:agent][:home] = "/var/lib/bamboo-agent"
