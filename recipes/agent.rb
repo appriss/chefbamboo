@@ -98,9 +98,4 @@ if node[:bamboo][:agent][:capabilities_url] != ""
   end
 end
 
-# Start the bamboo agent
-execute "start bamboo agent" do
-  command "#{node[:bamboo][:agent][:home]}/bamboo-agent-home/bin/bamboo-agent.sh start"
-  user node[:bamboo][:run_as]
-  action :run
-end
+include_recipe 'bamboo::agent-start'
